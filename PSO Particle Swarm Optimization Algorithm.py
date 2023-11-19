@@ -88,7 +88,7 @@ def PSO(Funkcja_Oceny, Rozmiar_Populacji, D, MaxIteracje):
     return globalna_najlepsza_pozycja, globalna_najlepsza_wartość
 
 
-# Definicja funkcji oceny
+# Definicja funkcji testowych
 
 # Obliczenie sumy kwadratów elementów wektora x
 def Funkcja_testowa1(x):
