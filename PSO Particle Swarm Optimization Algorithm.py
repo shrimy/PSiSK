@@ -2,6 +2,8 @@ import random
 import numpy as np
 from tkinter import messagebox
 
+XDDDD
+
 # Definicja klasy Cząsteczki
 class Cząsteczka:
     # Wywołanie automatyczne podczas tworzenia nowego obiektu klasy 'Cząsteczka'
