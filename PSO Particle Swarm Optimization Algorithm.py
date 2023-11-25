@@ -1,6 +1,8 @@
 import random
 import numpy as np
 from tkinter import messagebox
+import matplotlib.pyplot as plt
+
 
 # Definicja klasy Cząsteczki
 class Cząsteczka:
@@ -92,23 +94,19 @@ def PSO(Funkcja_Oceny, Rozmiar_Populacji, D, MaxIteracje):
 
 # Obliczenie sumy kwadratów elementów wektora x
 def Funkcja_testowa1(x):
-    return np.sum(x**2)
-
-# Obliczenie maksymalnej wartości bezwzględnej elementów wektora x
-def Funkcja_testowa2(x):
-    return np.max(np.abs(x))
+    return np.sum(x**2, axis=0)
 
 # Przechowywanie funkcji oceny w słowniku Funkcje_Oceny
-Funkcje_Oceny = {'Funkcja_testowa1': Funkcja_testowa1, 'Funkcja_testowa2': Funkcja_testowa2}
+Funkcje_Oceny = {'Funkcja_testowa1': Funkcja_testowa1}
 
 # Parametry
 
 # Liczba cząsteczek w populacji
-Rozmiar_Populacji = 200
+Rozmiar_Populacji = 50
 # Maksymalna liczba iteracji algorytmu
 MaxIteracje = 100
 # Wymiarowość problemu (ilość wymiarów przestrzeni rozwiązań)
-D = 2
+D = 3
 
 # Iteracja po każdej funkcji oceny i uruchomienie PSO
 for nazwa_funkcji, Funkcja_Oceny in Funkcje_Oceny.items():
@@ -124,3 +122,27 @@ for nazwa_funkcji, Funkcja_Oceny in Funkcje_Oceny.items():
 
     # Wyświetlenie okna dialogowego z wynikami dla każdej funkcji oceny
     messagebox.showinfo("PSO RUN", Wynik)
+
+    # Przygotowanie siatki punktów
+    x = np.linspace(-0.5, 0.5, 100)
+    y = np.linspace(-0.5, 0.5, 100)
+    x, y = np.meshgrid(x, y)
+    z = Funkcja_testowa1(np.array([x, y]))
+
+    # Rysowanie wykresu
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.plot_surface(x, y, z, cmap='viridis')
+
+    # Punkt znaleziony przez minimalizację
+    najlepsza_pozycja, _ = PSO(Funkcja_testowa1, 1, 2, 1)
+    # Dla tej funkcji testowej wywołuję minimalizację z ustalonymi parametrami
+    ax.scatter(najlepsza_pozycja[0], najlepsza_pozycja[1], Funkcja_testowa1(najlepsza_pozycja), color='red', s=100, label='Znaleziony punkt')
+
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Wartość funkcji')
+
+    plt.title('Wykres funkcji testowej 1')
+    plt.show()
+
